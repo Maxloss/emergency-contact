@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🚨 Adrian Emergency Contact</title>
+  <style>
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+    
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      background: linear-gradient(135deg, #FFF5E6 0%, #FFF9E6 100%); 
+      min-height: 100vh; 
+      padding: 20px; 
+    }
+    
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    
+    .container { 
+      max-width: 600px; 
+      margin: 0 auto; 
+      position: relative; 
+      z-index: 10; 
+    }
+    
+    .header { 
+      text-align: center; 
+      margin-bottom: 30px; 
+    }
+    
+    .header h1 { 
+      font-size: 28px; 
+      color: #FF6B9D; 
+      margin-bottom: 10px; 
+      font-weight: bold; 
+    }
+    
+    .header p { 
+      font-size: 14px; 
+      color: #666; 
+    }
+    
+    .card { 
+      background: white; 
+      border-radius: 20px; 
+      padding: 25px; 
+      margin-bottom: 20px; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+      border: 2px solid #FFD700; 
+    }
+    
+    .section-title { 
+      font-size: 18px; 
+      font-weight: bold; 
+      color: #FF6B9D; 
+      margin-bottom: 15px; 
+      display: flex; 
+      align-items: center; 
+      gap: 10px; 
+    }
+    
+    .section-title::before { 
+      content: ''; 
+      display: inline-block; 
+      width: 8px; 
+      height: 8px; 
+      background: #FFD700; 
+      border-radius: 50%; 
+    }
+    
+    .photo-section { 
+      text-align: center; 
+      margin-bottom: 20px; 
+    }
+    
+    .photo-placeholder { 
+      width: 120px; 
+      height: 120px; 
+      background: linear-gradient(135deg, #FFE4E9 0%, #FFF5E6 100%); 
+      border-radius: 15px; 
+      border: 3px dashed #FFB6C1; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      margin: 0 auto 15px; 
+      font-size: 40px; 
+      cursor: pointer; 
+      transition: all 0.3s ease; 
+    }
+    
+    .photo-placeholder:hover { 
+      background: #FFDDE6; 
+      border-color: #FF6B9D; 
+    }
+    
+    .photo-placeholder img { 
+      width: 100%; 
+      height: 100%; 
+      border-radius: 12px; 
+      object-fit: cover; 
+    }
+    
+    #photoInput { 
+      display: none; 
+    }
+    
+    .info-group { 
+      margin-bottom: 18px; 
+    }
+    
+    .info-label { 
+      font-size: 12px; 
+      font-weight: bold; 
+      color: #FF6B9D; 
+      text-transform: uppercase; 
+      letter-spacing: 1px; 
+      margin-bottom: 6px; 
+      display: block; 
+    }
+    
+    .info-input { 
+      width: 100%; 
+      padding: 12px; 
+      font-size: 16px; 
+      border: 2px solid #FFD700; 
+      border-radius: 10px; 
+      font-weight: 500; 
+      background: #FFFAFC; 
+      transition: all 0.3s ease; 
+    }
+    
+    .info-input:focus { 
+      outline: none; 
+      border-color: #FF6B9D; 
+      background: #FFF5E6; 
+      box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.1); 
+    }
+    
+    .map-container { 
+      width: 100%; 
+      height: 280px; 
+      border-radius: 15px; 
+      overflow: hidden; 
+      border: 3px solid #FFD700; 
+      margin-top: 10px; 
+    }
+    
+    .map-container iframe { 
+      width: 100%; 
+      height: 100%; 
+      border: none; 
+    }
+    
+    .button-group { 
+      display: flex; 
+      gap: 10px; 
+      margin-top: 20px; 
+    }
+    
+    button { 
+      flex: 1; 
+      padding: 14px; 
+      font-size: 16px; 
+      font-weight: bold; 
+      border: none; 
+      border-radius: 12px; 
+      cursor: pointer; 
+      transition: all 0.3s ease; 
+      text-transform: uppercase; 
+      letter-spacing: 1px; 
+    }
+    
+    .btn-edit { 
+      background: linear-gradient(135deg, #FF6B9D 0%, #FF8FC7 100%); 
+      color: white; 
+    }
+    
+    .btn-edit:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4); 
+    }
+    
+    .btn-edit:active { 
+      transform: translateY(0); 
+    }
+    
+    .btn-save { 
+      background: linear-gradient(135deg, #FFD700 0%, #FFC107 100%); 
+      color: #333; 
+      font-weight: bold; 
+    }
+    
+    .btn-save:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4); 
+    }
+    
+    .btn-save:active { 
+      transform: translateY(0); 
+    }
+    
+    .btn-cancel { 
+      background: #E0E0E0; 
+      color: #666; 
+    }
+    
+    .btn-cancel:hover { 
+      background: #CCCCCC; 
+    }
+    
+    .contact-display { 
+      font-size: 18px; 
+      font-weight: bold; 
+      color: #333; 
+      padding: 12px; 
+      background: #FFFAFC; 
+      border-radius: 10px; 
+      border-left: 4px solid #FF6B9D; 
+    }
+    
+    .hidden { 
+      display: none; 
+    }
+    
+    @keyframes float { 
+      0%, 100% { transform: translateY(0px); } 
+      50% { transform: translateY(-20px); } 
+    }
+    
+    .float1 { 
+      animation: float 4s ease-in-out infinite; 
+    }
+    
+    .float2 { 
+      animation: float 5s ease-in-out infinite 1s; 
+    }
+    
+    .float3 { 
+      animation: float 6s ease-in-out infinite 2s; 
+    }
+
+    .copy-link-btn {
+      background: linear-gradient(135deg, #87CEEB 0%, #98FB98 100%);
+      color: white;
+      margin-bottom: 20px;
+      width: 100%;
+      padding: 12px;
+    }
+
+    .copy-link-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(135, 206, 235, 0.4);
+    }
+
+    .link-display {
+      background: #E8F4F8;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+      border: 2px solid #87CEEB;
+    }
+
+    .link-display p {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .link-display code {
+      background: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #0066CC;
+      word-break: break-all;
+      display: inline-block;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<div class="animated-bg" id="animatedBg"></div>
+
+<div class="container">
+  <div class="header">
+    <h1>🚨 Emergency Contact</h1>
+    <p>Tap Edit to customize information</p>
+  </div>
+
+  <!-- Link Display -->
+  <div class="link-display">
+    <p>📱 Share this link with emergency contacts:</p>
+    <code id="currentUrl"></code>
+  </div>
+  <button class="copy-link-btn" onclick="copyLink()">📋 Copy Link</button>
+
+  <!-- Child Information -->
+  <div class="card">
+    <div class="section-title">Child Information</div>
+    
+    <div class="photo-section">
+      <div class="photo-placeholder" onclick="document.getElementById('photoInput').click();" id="photoDisplay">
+        📸
+      </div>
+      <input type="file" id="photoInput" accept="image/*" onchange="handlePhotoUpload(event)">
+      <p style="font-size: 12px; color: #999;">Tap to upload photo</p>
+    </div>
+
+    <div class="info-group">
+      <label class="info-label">Child's Name</label>
+      <div class="contact-display" id="childNameDisplay">Adrian Abaigar</div>
+      <input type="text" class="info-input hidden" id="childNameInput" value="Adrian Abaigar">
+    </div>
+  </div>
+
+  <!-- Mother Information -->
+  <div class="card">
+    <div class="section-title">Mother</div>
+    <div class="info-group">
+      <label class="info-label">Name</label>
+      <div class="contact-display" id="motherNameDisplay">Ana Abaigar</div>
+      <input type="text" class="info-input hidden" id="motherNameInput" value="Ana Abaigar">
+    </div>
+    <div class="info-group">
+      <label class="info-label">Contact Number</label>
+      <div class="contact-display" id="motherPhoneDisplay">09*********</div>
+      <input type="tel" class="info-input hidden" id="motherPhoneInput" value="09*********" placeholder="09XX XXXX XXXX">
+    </div>
+  </div>
+
+  <!-- Father Information -->
+  <div class="card">
+    <div class="section-title">Father</div>
+    <div class="info-group">
+      <label class="info-label">Name</label>
+      <div class="contact-display" id="fatherNameDisplay">Albert Abaigar</div>
+      <input type="text" class="info-input hidden" id="fatherNameInput" value="Albert Abaigar">
+    </div>
+    <div class="info-group">
+      <label class="info-label">Contact Number</label>
+      <div class="contact-display" id="fatherPhoneDisplay">09*********</div>
+      <input type="tel" class="info-input hidden" id="fatherPhoneInput" value="09*********" placeholder="09XX XXXX XXXX">
+    </div>
+  </div>
+
+  <!-- Location Information -->
+  <div class="card">
+    <div class="section-title">Location</div>
+    <div class="info-group">
+      <label class="info-label">Address</label>
+      <div class="contact-display" id="locationDisplay">San Miguel Phase 3, Marikina, Metro Manila</div>
+      <input type="text" class="info-input hidden" id="locationInput" value="San Miguel Phase 3, Marikina, Metro Manila">
+    </div>
+    
+    <div class="map-container">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.5520893535717!2d121.58370522346902!3d14.605278672638308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397bb94a2c55555%3A0x1234567890abc!2sSan%20Miguel%20Phase%203%2C%20Marikina!5e0!3m2!1sen!2sph!4v1234567890" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="button-group">
+    <button class="btn-edit" onclick="toggleEdit()" id="editBtn">✏️ Edit</button>
+    <button class="btn-save hidden" onclick="saveChanges()" id="saveBtn">✓ Save</button>
+    <button class="btn-cancel hidden" onclick="cancelEdit()" id="cancelBtn">✕ Cancel</button>
+  </div>
+</div>
+
+<script>
+  // Display current URL
+  document.getElementById('currentUrl').textContent = window.location.href;
+
+  // Create animated background
+  function createAnimatedBg() {
+    const bg = document.getElementById('animatedBg');
+    const elements = [
+      { type: 'circle', cx: 80, cy: 100, r: 25, fill: '#FFB6C1', opacity: 0.3, delay: 0 },
+      { type: 'circle', cx: 80, cy: 100, r: 20, fill: '#FFD700', opacity: 0.3, delay: 0 },
+      { type: 'rect', x: 310, y: 140, w: 20, h: 20, fill: '#87CEEB', opacity: 0.3, delay: 1 },
+      { type: 'circle', cx: 325, cy: 155, r: 15, fill: '#98FB98', opacity: 0.3, delay: 1 },
+      { type: 'circle', cx: 150, cy: 500, r: 18, fill: '#FFB6C1', opacity: 0.25, delay: 2 },
+    ];
+
+    bg.innerHTML = `
+      <svg viewBox="0 0 400 600" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;">
+        <defs>
+          <style>
+            @keyframes float1 { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+            @keyframes float2 { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+            @keyframes float3 { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+            .f1 { animation: float1 4s ease-in-out infinite; }
+            .f2 { animation: float2 5s ease-in-out infinite 1s; }
+            .f3 { animation: float3 6s ease-in-out infinite 2s; }
+          </style>
+        </defs>
+        <g class="f1">
+          <circle cx="80" cy="100" r="25" fill="#FFB6C1" opacity="0.3"/>
+          <circle cx="80" cy="100" r="20" fill="#FFD700" opacity="0.3"/>
+        </g>
+        <g class="f2">
+          <rect x="310" y="140" width="20" height="20" rx="4" fill="#87CEEB" opacity="0.3"/>
+          <circle cx="325" cy="155" r="15" fill="#98FB98" opacity="0.3"/>
+        </g>
+        <g class="f3">
+          <circle cx="150" cy="500" r="18" fill="#FFB6C1" opacity="0.25"/>
+          <polygon points="150,470 165,490 135,490" fill="#FFD700" opacity="0.3"/>
+        </g>
+      </svg>
+    `;
+  }
+
+  createAnimatedBg();
+
+  let isEditing = false;
+  const displays = ['childNameDisplay', 'motherNameDisplay', 'motherPhoneDisplay', 'fatherNameDisplay', 'fatherPhoneDisplay', 'locationDisplay'];
+  const inputs = ['childNameInput', 'motherNameInput', 'motherPhoneInput', 'fatherNameInput', 'fatherPhoneInput', 'locationInput'];
+
+  function toggleEdit() {
+    isEditing = !isEditing;
+    
+    displays.forEach(id => {
+      document.getElementById(id).classList.toggle('hidden');
+    });
+    
+    inputs.forEach(id => {
+      document.getElementById(id).classList.toggle('hidden');
+    });
+    
+    document.getElementById('editBtn').classList.toggle('hidden');
+    document.getElementById('saveBtn').classList.toggle('hidden');
+    document.getElementById('cancelBtn').classList.toggle('hidden');
+  }
+
+  function saveChanges() {
+    inputs.forEach((inputId, idx) => {
+      const value = document.getElementById(inputId).value;
+      document.getElementById(displays[idx]).textContent = value;
+    });
+    toggleEdit();
+    alert('✓ Information saved successfully!');
+  }
+
+  function cancelEdit() {
+    toggleEdit();
+  }
+
+  function handlePhotoUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const photoDisplay = document.getElementById('photoDisplay');
+        photoDisplay.innerHTML = `<img src="${e.target.result}" alt="Child's photo">`;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function copyLink() {
+    const url = document.getElementById('currentUrl').textContent;
+    navigator.clipboard.writeText(url).then(() => {
+      alert('✓ Link copied to clipboard!');
+    }).catch(() => {
+      alert('Copy manually: ' + url);
+    });
+  }
+</script>
+
+</body>
+</html>
